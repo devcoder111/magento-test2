@@ -1,0 +1,54 @@
+<?php
+/**
+ * Copyright © 2015 amcommerce. All rights reserved.
+ */
+?>
+<?php
+/**
+ * {{controller}} {{action}} template
+ *
+ * @var $block \AM\Allaboutcart\Block\Allcart\Index
+ */
+
+?>
+<div class="row">
+<div class="col-md-8">
+<div class="button-set"><button type="button" title="In Winkelwagen" class="action tocart primary" onclick="window.location.href='<?=$this->getUrl('allaboutcart/allcart') ?>'"><span>Cart Items</span></button>
+</div>
+<div class="items" style="padding-top:10px;">
+<?php
+$itemsCollection = $block->getCartItems(); 
+foreach($itemsCollection as $item) { ?> 
+
+<div class="item" style="border: 1px solid #ccc; padding: 10px; display: inline-block; margin-right: 15px;">
+<?php
+     echo 'ID: '.$item->getProductId().'<br />';
+      echo 'Name: '.$item->getName().'<br />';
+       echo 'Sku: '.$item->getSku().'<br />';
+       echo 'Quantity: '.$item->getQty().'<br />';
+      echo 'Price: '.$item->getPrice().'<br />';
+    echo "<br />"; 
+?>
+</div>
+<?php           
+  }
+?>
+
+</div>
+</div>
+
+<div class="col-md-4"> 
+<?php
+$productCollection = $block->getProductCollections(); 
+?>
+<form name="formAddToCart" method="post" action="<?=$this->getUrl('*/*/addcart') ?>" > 
+	<input name="form_key" type="hidden" value="<?php echo $block->getFormKey();?>" /> 
+	<select multiple="multiple" name="productids[]">
+    <?php foreach ($productCollection as $product) { if($product->getData('type_id') != 'simple') continue;  ?>
+    	<option value="<?=$product->getId() ?>"><?=$product->getName() ?></option> 
+    <?php } ?>
+    </select>
+    <button type="submit" title="In Winkelwagen" class="action tocart primary"><span>Add to cart</span></button>
+</form>
+</div> 
+</div>
